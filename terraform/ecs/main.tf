@@ -17,8 +17,7 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_ecs_task_definition" "str_task" {
-  family = "hello-world"
-  #execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+  family = "Strat7"
   container_definitions = jsonencode([
     {
       name      = "Strat7"
@@ -43,7 +42,7 @@ resource "aws_ecs_task_definition" "str_task" {
 }
 
 resource "aws_ecs_service" "STR_ECS_service" {
-  name            = "hello-world"
+  name            = "Strat7"
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.str_task.arn
   desired_count   = 2
@@ -64,4 +63,12 @@ resource "aws_ecs_service" "STR_ECS_service" {
     assign_public_ip = true
     security_groups  = [data.aws_security_group.ecs-container.id]
   }
+}
+
+resource "aws_appautoscaling_target" "ecs_target" {
+  max_capacity       = 4
+  min_capacity       = 1
+  resource_id        = "service/${aws_ecs_cluster.cluster.name}/${aws_ecs_service.STR_ECS_service.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
 }

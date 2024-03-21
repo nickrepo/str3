@@ -1,0 +1,1 @@
+aws ecs update-service --cluster cluster-dev --service hello-world --desired-count *****
