@@ -55,10 +55,6 @@ resource "aws_ecs_service" "STR_ECS_service" {
   }
 
   network_configuration {
-    // Using public subnet, as private subnet would require NAT Gateway/VPC Endpoints for AWS ECR for fetching images.
-    // Internet Gateway is free but not the NAT Gateway/VPC Endpoint.
-    // Restricting access to the instances can be done by SG itself.
-    // No point in incurring charges for NAT (~ 3 INR/hr) /VPC Endpoint (~ 0.7 INR/hr)just for this assignment.
     subnets          = [data.aws_subnet.stratsub1.id, data.aws_subnet.stratsub2.id]
     assign_public_ip = true
     security_groups  = [data.aws_security_group.ecs-container.id]
