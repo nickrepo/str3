@@ -6,7 +6,7 @@ resource "aws_ecr_repository" "str_ecr" {
     scan_on_push = true
   }
 }
-
+### Creating ECS cluter
 resource "aws_ecs_cluster" "cluster" {
   name = "cluster-${var.env}"
 
@@ -15,13 +15,13 @@ resource "aws_ecs_cluster" "cluster" {
     value = "enabled"
   }
 }
-
+### Creating task definition
 resource "aws_ecs_task_definition" "str_task" {
   family = "Strat7"
   container_definitions = jsonencode([
     {
       name      = "Strat7"
-      image     = "public.ecr.aws/nginx/nginx:mainline-alpine3.18-perl"
+      image     = "172019531624.dkr.ecr.eu-west-2.amazonaws.com/nickrepo:latest"
       essential = true
 
       portMappings = [
@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "str_task" {
   cpu          = "256"
   memory       = "512"
 }
-
+### Creating ECS Service
 resource "aws_ecs_service" "STR_ECS_service" {
   name            = "Strat7"
   cluster         = aws_ecs_cluster.cluster.id
@@ -60,7 +60,7 @@ resource "aws_ecs_service" "STR_ECS_service" {
     security_groups  = [data.aws_security_group.ecs-container.id]
   }
 }
-
+### ECS autoscaling
 resource "aws_appautoscaling_target" "ecs_target" {
   max_capacity       = 4
   min_capacity       = 1
