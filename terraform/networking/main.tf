@@ -38,25 +38,6 @@ resource "aws_lb_listener" "ECSListener" {
   }
 }
 
-resource "aws_cloudwatch_metric_alarm" "lb_alarm" {
-  alarm_name          = "lb_alarm-"
-  alarm_description   = "unhealthy"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = 1
-  threshold           = 1
-  period              = 60
-  unit                = "Count"
-  namespace           = "AWS/ApplicationELB"
-  metric_name         = "UnHealthyHostCount"
-  statistic           = "Sum"
-  alarm_actions       = ["arn:aws:sns:eu-west-2:172019531624:devwarn-sns-core-ew2-techtest1"]
-
-  dimensions = {
-    TargetGroup  = aws_lb_target_group.ECSTG.arn_suffix
-    LoadBalancer = aws_lb.ECSLB.arn_suffix
-  }
-}
-
 resource "aws_route53_record" "www" {
   zone_id = data.aws_route53_zone.Strat7.id
   name    = "nick.techtest1.ex-plor.co.uk"
