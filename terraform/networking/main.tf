@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "ECSTG" {
     timeout  = 2
   }
 }
-#Listener
+#LB Listener which will forward request to exact TargetGroup
 resource "aws_lb_listener" "ECSListener" {
   load_balancer_arn = aws_lb.ECSLB.arn
   port              = "80"
@@ -38,6 +38,7 @@ resource "aws_lb_listener" "ECSListener" {
     target_group_arn = aws_lb_target_group.ECSTG.arn
   }
 }
+
 #R53 record + associate LB to it
 resource "aws_route53_record" "www" {
   zone_id = data.aws_route53_zone.Strat7.id
@@ -46,3 +47,19 @@ resource "aws_route53_record" "www" {
   ttl     = 300
   records = ["ECSLB-dev-2058094774.eu-west-2.elb.amazonaws.com"]
 }
+
+### Trying to set redirect from HTTP to HTTPS
+#resource "aws_lb_listener" "front_end" {
+#  load_balancer_arn = aws_lb.ECSLB.arn
+#  port              = "80"
+#  protocol          = "HTTP"
+#
+#  default_action {
+#    type = "redirect"
+#    redirect {
+#      protocol    = "HTTPS"
+#      port        = "443"
+#      status_code = "HTTP_301"
+#    }
+#  }
+#}
