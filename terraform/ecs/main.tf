@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "str_task" {
   container_definitions = jsonencode([
     {
       name      = "Strat7"
-      image     = "172019531624.dkr.ecr.eu-west-2.amazonaws.com/nickrepo:latest"
+      image     = "public.ecr.aws/nginx/nginx:mainline-alpine3.18-perl"
       essential = true
 
       portMappings = [
