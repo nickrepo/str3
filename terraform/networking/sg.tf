@@ -12,8 +12,8 @@ resource "aws_security_group" "allow_http_lb" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
-    ### Allowing HTTPS from internet to LB
-    ingress {
+  ### Allowing HTTPS from internet to LB
+  ingress {
     description      = "HTTPS from internet"
     from_port        = 443
     to_port          = 443
