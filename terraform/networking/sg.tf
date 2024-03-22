@@ -1,3 +1,4 @@
+## SG group allowing traffic from internet to LB
 resource "aws_security_group" "allow_http_lb" {
   name        = "allow_http_lb"
   description = "Allow http inbound traffic"
@@ -20,7 +21,7 @@ resource "aws_security_group" "allow_http_lb" {
 ###
 
 
-
+## Allow traffic from LB to Container
 resource "aws_security_group" "ecs_container" {
   name        = "ecs-container"
   description = "Allow http inbound traffic"

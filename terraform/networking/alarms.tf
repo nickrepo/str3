@@ -1,3 +1,4 @@
+#CW alarm to check UnHealthyHosts behind LB
 resource "aws_cloudwatch_metric_alarm" "lb_alarm" {
   alarm_name          = "LB-UnHealthyHostCount"
   alarm_description   = "unhealthy"
@@ -16,7 +17,7 @@ resource "aws_cloudwatch_metric_alarm" "lb_alarm" {
     LoadBalancer = aws_lb.ECSLB.arn_suffix
   }
 }
-
+## Error rate for HTTP 5XX responses
 resource "aws_cloudwatch_metric_alarm" "foobar" {
   alarm_name                = "5XX_Error_Rate"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
